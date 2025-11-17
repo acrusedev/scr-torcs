@@ -111,21 +111,21 @@ class DefaultDriver(object):
                ,'focus':0.0
                ,'meta':0}
 
-    def steering(self,abstand):
-    	return  -math.exp(-abstand*abstand)+1
-
     def shifter(self,gear,rpm):
-    	if 0 == gear:
-    		return 1
+        print(f"GEAR: {gear}, RPM: {rpm}")
+        if 0 == gear:
+            return 1
         if 8000 < rpm:
             return gear+1
-        elif 8000 < rpm and 1000 < rmp:
+        elif 8000 < rpm and 1000 < rpm:
             return gear-1
         elif 0 > rpm:
             return 1
         else:
             return gear
 
+    def steering(self,abstand):
+    	return  -math.exp(-abstand*abstand)+1
 class KeyboardDriver(object):
     def __init__(self):
         self.name = 'keyboard-driver'
@@ -185,33 +185,36 @@ class KeyboardDriver(object):
             self.state['accel'] = 1
         else:
             self.state['accel'] = 0
+        print(f"ACCEL STATE: {self.state}")
 
     def braker(self,pressed):
         if(pressed):
             self.state['brake'] = 1
         else:
             self.state['brake'] = 0
-
+        print(f"BRAKE STATE: {self.state}")
     def steer_left(self,pressed):
         if(pressed):
             self.state['steer'] = 1
         else:
             self.state['steer'] = 0
-
+        print(f"STEER STATE: {self.state}")
     def steer_right(self,pressed):
         if(pressed):
             self.state['steer'] = -1
         else:
             self.state['steer'] = 0
-
+        print(f"STEER RIGHT STATE: {self.state}")
     def shift_up(self,pressed):
-        self.state['gear'] = self.state['gear']+1
+        if(pressed):
+            self.state['gear'] = self.state['gear']+1
 
     def shift_down(self,pressed):
-        self.state['gear'] = self.state['gear']-1
+        if(pressed):
+            self.state['gear'] = self.state['gear']-1
 
     def dummy(self,pressed):
-        print 'dummy'
+        print('dummy')
 
 class GamepadDriver(object):
     def __init__(self):
@@ -368,4 +371,4 @@ class GamepadDriver(object):
 
     def shoot(self,value):
         if(value):
-            print 'shoot'
+            print('shoot')

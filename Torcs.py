@@ -150,7 +150,7 @@ class TorcsClient(object):
             try:
                 self.client.sendto(message,address)
                 message, a = self.client.recvfrom(framesize)
-                if '***identified***\x00' == message: # 17 bytes
+                if b'***identified***\x00' == message: # 17 bytes
                     logging.debug('connection established to %s:%d'%a)
                     break
             except error as e:
@@ -165,10 +165,10 @@ class TorcsClient(object):
                 message, a = self.client.recvfrom(framesize)
                 if not message:
                     continue
-                elif '***shutdown***\x00' == message: # 15 bytes
+                elif b'***shutdown***\x00' == message: # 15 bytes
                     logging.info('Server requested shutdown.')
                     break
-                elif '***restart***\x00' == message: # 14 bytes
+                elif b'***restart***\x00' == message: # 14 bytes
                     logging.info('Server requested restart.')
                     self.disconnect()
                     self.start()

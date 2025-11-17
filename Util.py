@@ -90,13 +90,17 @@ class ProcessEngine(object):
             self.emitter.emit(service,{'call':service,'id':'create-process'})
         logging.info('Process Engine %s Started.'%(self.pid))
         try:
-            from signal import pause
+            import sys
             from time import sleep
-            while self.flag:
-                pause() # stop thread, signal handler keeps reacting
-            #    self.lock.wait() # stop thread, signal handler not reacting
-            #    sleep(3600) # stop thread, signal handler keeps reacting
-        except self.args['oops'] as e:
+
+            if sys.platform == 'win32':
+                while self.flag:
+                    sleep(1)
+            else:
+                from signal import pause
+                while self.flag:
+                    pause()
+        except Exception as e:
             logging.info('Process Engine %s Exception. %s'%(self.pid,e.toString()))
         except ProcessStop as e:
             logging.exception('Engine Kill Exception Interrupt. %s'%str(e))

@@ -18,8 +18,8 @@ At first you will have to install Torcs - The Open Race Car Simulator and patch 
 ```
 pip install getopts
 pip install inputs
-pip install json
-pip install pydoc
+# pip install json
+# pip install pydoc
 pip install pynput
 ```
 The realtime car monitor is based on flask microframework.
